@@ -2,21 +2,15 @@
     <div class="row">
         <div class="col-3">
             Followers
-            <x-UserCard/>
-            <x-UserCard/>
-            <x-UserCard/>
-            <x-UserCard/>
+
         </div>
         <div class="col-6">
-            <x-Post />
+            @foreach ( $user->posts as $post)
+                <x-Post :post="$post"/>
+            @endforeach
         </div>
         <div class="col-3">
             Following
-            <x-UserCard/>
-            <x-UserCard/>
-            <x-UserCard/>
-            <x-UserCard/>
-            <x-UserCard/>
         </div>
     </div>
 </x-layout>
