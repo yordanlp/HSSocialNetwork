@@ -16,8 +16,13 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+
         return [
-            //
+            "photo" => null,
+            "user_id" => fake()->numberBetween(1, 3),
+            "message" => fake()->sentence(12),
+            "likes" => fake()->numberBetween(0, 20),
+            "dislikes" => fake()->numberBetween(0, 10)
         ];
     }
 }
