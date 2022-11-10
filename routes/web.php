@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\ProfileController;
 
 
 /*
@@ -16,3 +17,5 @@ use App\Http\Controllers\FeedController;
 */
 
 Route::get('/', [FeedController::class, 'Index']);
+
+Route::get('/profile', [ProfileController::class, 'Index']);
