@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('photo');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('photo')->nullable();
             $table->string('message');
             $table->integer('likes')->default(0);
             $table->integer('dislikes')->default(0);
+            $table->foreignId('post_id')->nullable()->references('id')->on('posts');
             $table->timestamps();
         });
     }
