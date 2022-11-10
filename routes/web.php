@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -18,4 +19,6 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [FeedController::class, 'Index']);
 
-Route::get('/profile', [ProfileController::class, 'Index']);
+Route::get('/profile/{id}', [ProfileController::class, 'Index']);
+
+Route::get('/people', [UserController::class, 'Index']);
