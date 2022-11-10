@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Post as ModelsPost;
 use Illuminate\View\Component;
 
 class Post extends Component
@@ -11,9 +12,12 @@ class Post extends Component
      *
      * @return void
      */
-    public function __construct()
+
+    public ModelsPost $post;
+
+    public function __construct($post)
     {
-        //
+        $this->post = $post;
     }
 
     /**
