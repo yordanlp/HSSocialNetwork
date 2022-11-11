@@ -22,7 +22,8 @@ class PostFactory extends Factory
             "user_id" => fake()->numberBetween(1, 3),
             "message" => fake()->sentence(12),
             "likes" => fake()->numberBetween(0, 20),
-            "dislikes" => fake()->numberBetween(0, 10)
+            "dislikes" => fake()->numberBetween(0, 10),
+            "is_public" => fake()->boolean(50)
         ];
     }
 }
