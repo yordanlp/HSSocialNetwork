@@ -32,11 +32,14 @@ class PostController extends Controller
             'user_id' => $user_id,
             'photo' => $photo_route,
             'message' => $request->message,
-            'is_public' => $is_public
+            'is_public' => $is_public,
+            'post_id' => $request->post_id
         ];
 
         Post::create($data);
 
+        if ($request->post_id != null)
+            return redirect()->route("post.show", $request->post_id);
         return redirect()->route("user.show", $user_id);
     }
 

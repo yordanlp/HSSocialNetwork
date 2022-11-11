@@ -25,7 +25,7 @@
         <div style="color: blue;">{{$post->likes}}</div>
         <button class="btn btn-danger">Dislike</button>
         <div style="color: red">{{$post->dislikes}}</div>
-        <button class="btn btn-success">Comments</button>
-        <div style="color: green">TBD</div>
+        <a href="{{route("post.show", $post->id)}}" class="btn btn-success">Comments</a>
+        <div style="color: green">{{count($post->comments)}}</div>
     </div>
 </div>
