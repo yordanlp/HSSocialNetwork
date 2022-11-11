@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
 
 
 /*
@@ -17,8 +18,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [FeedController::class, 'Index']);
+Route::get('/', [FeedController::class, 'Index'])->name("feed.index");
 
-Route::get('/profile/{id}', [ProfileController::class, 'Index']);
+Route::get('/profile/{id}', [ProfileController::class, 'Index'])->name("user.show");
 
-Route::get('/people', [UserController::class, 'Index']);
+Route::get('/people', [UserController::class, 'Index'])->name("user.index");
+
+Route::get('/post/create', [PostController::class, 'create'])->name("post.create");
+
+Route::post('/post/{id}', [PostController::class, 'show'])->name("post.show");
+
+Route::post('/post/store', [PostController::class, 'store'])->name("post.store");

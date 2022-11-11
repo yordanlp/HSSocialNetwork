@@ -6,7 +6,7 @@
             <img clas="user-avatar" style="width: 40px" src="{{$post->user->photo}}" alt="user avatar" />
         @endif
 
-        <a href="/profile/{{$post->user->id}}">{{$post->user->name}}</a>
+        <a href="{{route("user.show", $post->user->id)}}">{{$post->user->name}}</a>
         <div class="" style="margin-left: auto">{{$post->created_at}}</div>
     </div>
 

@@ -48,10 +48,13 @@
                                     <a class="nav-link active" aria-current="page" href="/">Feed</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/profile/1">Profile</a>
+                                    <a class="nav-link" href="{{route("user.show", 1)}}">Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/people">Find People</a>
+                                    <a class="nav-link" href="{{route("user.index")}}">Find People</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route("post.create")}}">Create Post</a>
                                 </li>
                             </ul>
                             <form class="d-flex">
