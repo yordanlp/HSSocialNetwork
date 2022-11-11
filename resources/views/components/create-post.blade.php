@@ -14,8 +14,14 @@
             <input type="file" class="form-control-file" id="photo" name="photo" accept=".jpg,.png,.bmp">
         </div>
         <div class="form-group">
-            <textarea placeholder="What are you thinking?" autofocus class="form-control" id="message" name="message" required maxlength="250"></textarea>
+            <textarea placeholder="What are you thinking?" autofocus class="form-control" id="message" name="message">{{old('message', '')}}</textarea>
         </div>
         <button type="submit" class="btn btn-success">Post</button>
     </form>
+
+    <ul class="mt-2 text-danger">
+        @foreach ($errors->get('message') as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
 </div>
