@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('message');
             $table->integer('likes')->default(0);
             $table->integer('dislikes')->default(0);
+            $table->boolean('is_public')->default(false);
             $table->foreignId('post_id')->nullable()->references('id')->on('posts');
             $table->timestamps();
         });
