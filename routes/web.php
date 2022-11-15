@@ -23,14 +23,16 @@ Route::get('/dashboard', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/', [FeedController::class, 'Index'])->name("feed.index")->middleware(['auth']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [FeedController::class, 'Index'])->name("feed.index");
 
-Route::get('/profile/{id}', [ProfileController::class, 'Index'])->name("user.show");
+    Route::get('/profile/{id}', [ProfileController::class, 'Index'])->name("user.show");
 
-Route::get('/people', [UserController::class, 'Index'])->name("user.index");
+    Route::get('/people', [UserController::class, 'Index'])->name("user.index");
 
-Route::get('/post/create', [PostController::class, 'create'])->name("post.create");
+    Route::get('/post/create', [PostController::class, 'create'])->name("post.create");
 
-Route::get('/post/{id}', [PostController::class, 'show'])->name("post.show");
+    Route::get('/post/{id}', [PostController::class, 'show'])->name("post.show");
 
-Route::post('/post/store', [PostController::class, 'store'])->name("post.store");
+    Route::post('/post/store', [PostController::class, 'store'])->name("post.store");
+});
