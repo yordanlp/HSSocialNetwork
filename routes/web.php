@@ -6,7 +6,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +17,13 @@ use App\Http\Controllers\PostController;
 |
 */
 
-Route::get('/', [FeedController::class, 'Index'])->name("feed.index");
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+require __DIR__ . '/auth.php';
+
+Route::get('/', [FeedController::class, 'Index'])->name("feed.index")->middleware(['auth']);
 
 Route::get('/profile/{id}', [ProfileController::class, 'Index'])->name("user.show");
 
