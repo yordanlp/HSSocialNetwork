@@ -46,20 +46,7 @@
                         <a class="navbar-brand" href="/">Harbour.Space Network</a>
                         <div class="navbar" style="width: 100%;">
                             @auth
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="/">Feed</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route("user.show", auth()->user()->id)}}">Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route("user.index")}}">Find People</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route("post.create")}}">Create Post</a>
-                                </li>
-                            </ul>
+                                <x-Navigation/>
                             <form class="d-flex ml-auto">
                                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-success" type="submit">Search</button>
