@@ -7,6 +7,10 @@
         @endif
 
         <a href="{{route("user.show", $post->user->id)}}">{{$post->user->name}}</a>
+        @if (auth()->user()->id == $post->user_id)
+            <a class="btn btn-warning ml-auto" href="{{route("post.edit", $post->id)}}">Edit Post</a>
+            <a class="btn btn-danger" href="{{route("post.destroy", $post->id)}}">Delete Post</a>
+        @endif
         <div class="" style="margin-left: auto">{{$post->created_at}}</div>
     </div>
 
