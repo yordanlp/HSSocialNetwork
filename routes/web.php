@@ -23,8 +23,9 @@ Route::get('/dashboard', function () {
 
 require __DIR__ . '/auth.php';
 
+Route::get('/', [FeedController::class, 'Index'])->name("feed.index");
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [FeedController::class, 'Index'])->name("feed.index");
 
     Route::get('/profile/{id}', [ProfileController::class, 'Index'])->name("user.show");
 

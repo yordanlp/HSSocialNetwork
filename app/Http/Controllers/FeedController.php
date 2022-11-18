@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FeedController extends Controller
 {
@@ -11,7 +12,8 @@ class FeedController extends Controller
     {
         //TODO: Retrieve only friends posts and public posts
         $user = auth()->user();
-        $following_users = $user->following->map(fn ($f) => $f['id'])->toArray();
+        $is_logged_in = Auth::check();
+        $following_users = $is_logged_in ? $user->following->map(fn ($f) => $f['id'])->toArray() : [];
 
         $posts = Post::orderBy("created_at", "desc")
             ->whereNull('post_id')
