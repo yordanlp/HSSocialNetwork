@@ -40,5 +40,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/post', [PostController::class, 'update'])->name("post.destroy");
 
+    Route::post('post/like/{post_id}', [PostController::class, 'like'])->name("post.like");
+
     Route::post('/post/store', [PostController::class, 'store'])->name("post.store");
 });
