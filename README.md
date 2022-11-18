@@ -11,6 +11,10 @@ It's a small social network similar to [twitter](https://twitter.com/), built us
 - Users can follow other users and see their posts
 - Users can comment, like or dislike other users posts
 
+## Models
+
+- User
+- Post
 
 ## Dependencies
 
