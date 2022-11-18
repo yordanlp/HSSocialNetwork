@@ -25,10 +25,18 @@
         <p class="card-text">{{$post->message}}</p>
     </div>
     <div class="d-flex gap-3 align-items-center p-2">
-        <button class="btn btn-primary">Like</button>
-        <div style="color: blue;">{{$post->likes}}</div>
-        <button class="btn btn-danger">Dislike</button>
-        <div style="color: red">{{$post->dislikes}}</div>
+        <form method="post" action="{{route("post.like", $post->id)}}">
+            @csrf
+            <input name="like" type="checkbox" checked hidden>
+            <button type="submit" class="btn btn-primary">Like</button>
+        </form>
+        <div style="color: blue;">{{$post->likes->count()}}</div>
+        <form method="post" action="{{route("post.like", $post->id)}}">
+            @csrf
+            <input name="like" type="checkbox" hidden>
+            <button type="submit" class="btn btn-danger">Dislike</button>
+        </form>
+        <div style="color: red">{{$post->dislikes->count()}}</div>
         <a href="{{route("post.show", $post->id)}}" class="btn btn-success">Comments</a>
         <div style="color: green">{{count($post->comments)}}</div>
     </div>
