@@ -21,6 +21,8 @@ class FeedController extends Controller
             })
             ->with('user')
             ->with('comments')
+            ->with('likes')
+            ->with('dislikes')
             ->get();
 
         return view("feed", [
