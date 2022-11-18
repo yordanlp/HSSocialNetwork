@@ -17,7 +17,7 @@ class UserPostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "like" => fake()->boolean()
         ];
     }
 }
