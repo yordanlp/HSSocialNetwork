@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\UserPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,5 +67,16 @@ class PostController extends Controller
         return view("posts.show", [
             "post" => $post
         ]);
+    }
+
+    public function like($post_id, Request $request)
+    {
+        $like = $request->like === "on" ? true : false;
+        $user = Auth::user();
+        $like = UserPost::updateOrCreate(
+            ['user_id' => $user->id, "post_id" => $post_id],
+            ['like' => $like]
+        );
+        return redirect()->back();
     }
 }
