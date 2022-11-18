@@ -44,4 +44,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('post/like/{post_id}', [PostController::class, 'like'])->name("post.like");
 
     Route::post('/post/store', [PostController::class, 'store'])->name("post.store");
+
+    Route::post('/follow/{user_id}', [UserController::class, 'follow'])->name("user.follow");
 });
