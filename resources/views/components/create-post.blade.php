@@ -1,5 +1,5 @@
 
-@props(['parent_post', 'action', 'method', 'message', 'photo', 'is_public'])
+@props(['parent_post', 'action', 'method', 'message', 'is_public'])
 
 <div class="create_post">
     <form method="{{ Str::lower($method) == 'get' ? "GET" : "POST" }}" action="{{$action}}" enctype="multipart/form-data">
@@ -12,7 +12,7 @@
         </div>
         <div class="form-group">
             <label for="photo">Select a Picture</label>
-            <input type="file" value="{{ old("photo", $photo)  }}" class="form-control-file" id="photo" name="photo">
+            <input type="file" class="form-control-file" id="photo" name="photo">
         </div>
         <div class="form-group">
             <textarea placeholder="What are you thinking?" autofocus class="form-control" id="message" name="message">{{old('message', $message)}}</textarea>
