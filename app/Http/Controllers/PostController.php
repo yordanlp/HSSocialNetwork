@@ -19,11 +19,14 @@ class PostController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            "message" => "required|max:250",
-            "photo" => "image|mimes:jpeg,png,jpg,gif,svg|max:10000"
+            "message" => ["max:250", "nullable", "required_if:photo,null"],
+            "photo" => ["image", "mimes:jpeg,png,jpg,gif,svg", "max:10000", "nullable", "required_if:message,null", "file"]
+        ], [
+            "photo.image" => "The file uploaaded should be an image file",
+            "photo.mimes" => "The file uploaaded should be an image file",
+            "photo.max" => "The file should not be over 10000kb",
+            "photo.file" => "The file should be an image"
         ]);
-
-        //TODO: upload the photo to the server and get the route to the photo
 
         $user_id = $user->id;
         $is_public = false;
@@ -32,13 +35,15 @@ class PostController extends Controller
 
         $data = [
             'user_id' => $user_id,
-            'photo' => $photo_route,
             'message' => $request->message,
             'is_public' => $is_public,
             'post_id' => $request->post_id
         ];
 
-        Post::create($data);
+        $post = Post::create($data);
+
+        if ($request->has("photo"))
+            $post->addMediaFromRequest('photo')->toMediaCollection();
 
         if ($request->post_id != null)
             return redirect()->route("post.show", $request->post_id);
@@ -51,14 +56,45 @@ class PostController extends Controller
         return view("posts.edit", ['post' => $post]);
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
-        dd();
+        $post = Post::findOrFail($id);
+
+        $validated = $request->validate([
+            "message" => ["max:250", "nullable", "required_if:photo,null"],
+            "photo" => ["image", "mimes:jpeg,png,jpg,gif,svg", "max:10000", "nullable", "required_if:message,null", "file"]
+        ], [
+            "photo.image" => "The file uploaaded should be an image file",
+            "photo.mimes" => "The file uploaaded should be an image file",
+            "photo.max" => "The file should not be over 10000kb",
+            "photo.file" => "The file should be an image"
+        ]);
+
+        $is_public = false;
+        if ($request->is_public != null)
+            $is_public = true;
+
+        $data = [
+            'message' => $request->message,
+            'is_public' => $is_public,
+        ];
+
+        $post->update($data);
+        $post->media->each(function ($item, $key) {
+            $item->delete();
+        });
+
+        if ($request->has("photo"))
+            $post->addMediaFromRequest('photo')->toMediaCollection();
+
+        return redirect()->route("user.show", Auth::user()->id);
     }
 
     public function destroy($id)
     {
-        dd();
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back();
     }
 
     public function show($id)
