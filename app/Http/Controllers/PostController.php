@@ -80,12 +80,13 @@ class PostController extends Controller
         ];
 
         $post->update($data);
-        $post->media->each(function ($item, $key) {
-            $item->delete();
-        });
 
-        if ($request->has("photo"))
+        if ($request->has("photo")) {
+            $post->media->each(function ($item, $key) {
+                $item->delete();
+            });
             $post->addMediaFromRequest('photo')->toMediaCollection();
+        }
 
         return redirect()->route("user.show", Auth::user()->id);
     }
