@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('message');
+            $table->string('message')->nullable();
             $table->boolean('is_public')->default(false);
             $table->foreignId('post_id')->nullable()->references('id')->on('posts');
             $table->timestamps();
