@@ -6,11 +6,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Request;
 use Laravel\Sanctum\HasApiTokens;
+use PDO;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -60,5 +67,21 @@ class User extends Authenticatable
     public function is_follower($user_id)
     {
         return $this->followers()->where('id', '=', $user_id)->count() > 0;
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('profile_picture');
+        $this->addMediaCollection('cover_picture');
+    }
+
+    public function getProfilePictureUrl()
+    {
+        return $this->getMedia("profile_picture")->first()?->getUrl() ?? Request::root() . "/static/images/profile_picture_empty.jpg";
+    }
+
+    public function getCoverPictureUrl()
+    {
+        return $this->getMedia("cover_picture")->first()?->getUrl() ?? Request::root() . "/static/images/cover_picture.jpg";
     }
 }

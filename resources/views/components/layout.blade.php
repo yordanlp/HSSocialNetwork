@@ -59,7 +59,7 @@
                                     <li class="nav-item">
 
                                         <a href="{{route("user.show", auth()->user()->id)}}" style="color: white;" class="d-flex align-items-center gap-2">
-                                            <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src="{{Request::root()."/static/images/profile_picture_empty.jpg"}}" alt="user avatar" />
+                                            <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src='{{ auth()->user()->getProfilePictureUrl() }}' alt="user avatar" />
                                             <div>{{auth()->user()->name}}</div>
                                         </a>
                                     </li>

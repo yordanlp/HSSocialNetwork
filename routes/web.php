@@ -46,4 +46,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/post/store', [PostController::class, 'store'])->name("post.store");
 
     Route::post('/follow/{user_id}', [UserController::class, 'follow'])->name("user.follow");
+
+    Route::put('/user', [UserController::class, 'update'])->name('user.update');
 });

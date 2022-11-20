@@ -1,18 +1,38 @@
 <x-layout>
     <div class="row">
         <div class="d-flex justify-content-center align-items-center" style="
-            background-image: url('{{Request::root()."/static/images/cover_picture.jpg"}}');
+            background-image: url('{{ $user->getCoverPictureUrl() }}');
             background-position: center;
             position: relative;
             background-repeat: no-repeat;
             background-size: cover;
-
+            postition: relative;
             height: 312px; width: 100%;">
-            <img style="
-                width: 150px;
-                aspect-ratio: 1;
-                border-radius: 50%;
-                " src='{{Request::root()."/static/images/profile_picture_empty.jpg"}}'/>
+
+            <form style="width: 100%; height: 100%;" method="post" action="{{route('user.update')}}" enctype="multipart/form-data">
+                @csrf
+                @method("put")
+                <label title="Select a cover image" for="cover_picture" style="width: 100%; height: 100%; cursor: pointer;">
+                </label>
+                <input hidden type="file" name="cover_picture" id="cover_picture" onchange="form.submit()"/>
+            </form>
+
+            <form method="post" action="{{route('user.update')}}" enctype="multipart/form-data">
+                @csrf
+                @method("put")
+                <label title="Select a profile picture" for="profile_picture"><img style="
+                    width: 150px;
+                    aspect-ratio: 1;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    position:absolute;
+                    left: 50%;
+                    up: 50%;
+                    transform: translate(-50%, -50%);
+                    " src='{{ $user->getProfilePictureUrl() }}'/>
+                </label>
+                <input hidden type="file" name="profile_picture" id="profile_picture" onchange="form.submit()"/>
+            </form>
 
             @if( auth()->user()->id !== $user->id )
                 <form method="post" action="{{route('user.follow', $user->id)}}">
