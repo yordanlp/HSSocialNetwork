@@ -53,10 +53,17 @@
                             </form>
                             @endauth
 
-                            <ul class="navbar-nav mb-2 mb-lg-0 ml-auto">
+                            <ul class="navbar-nav mb-2 mb-lg-0 ml-auto d-flex gap-3">
 
                                 @auth
                                     <li class="nav-item">
+
+                                        <a href="{{route("user.show", auth()->user()->id)}}" style="color: white;" class="d-flex align-items-center gap-2">
+                                            <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src="{{Request::root()."/static/images/profile_picture_empty.jpg"}}" alt="user avatar" />
+                                            <div>{{auth()->user()->name}}</div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item d-flex align-items-center">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <a href="{{route('logout')}}" onclick="event.preventDefault();this.closest('form').submit();">
