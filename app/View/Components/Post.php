@@ -5,6 +5,8 @@ namespace App\View\Components;
 use App\Models\Post as ModelsPost;
 use Illuminate\View\Component;
 
+use function PHPUnit\Framework\returnSelf;
+
 class Post extends Component
 {
     /**
@@ -18,6 +20,13 @@ class Post extends Component
     public function __construct($post)
     {
         $this->post = $post;
+    }
+
+    public function getIfItsReply()
+    {
+        if ($this->post->getParentPostUserName() == null)
+            return "";
+        return "Replying to " . $this->post->getParentPostUserName();
     }
 
     /**

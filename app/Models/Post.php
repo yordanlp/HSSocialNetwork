@@ -28,7 +28,7 @@ class Post extends Model implements HasMedia
 
     public function parent()
     {
-        return $this->belongsTo(Post::class, 'post_id');
+        return $this->belongsTo(Post::class, 'post_id')->with('user');
     }
 
     public function likes()
@@ -39,5 +39,10 @@ class Post extends Model implements HasMedia
     public function dislikes()
     {
         return $this->belongsToMany(User::class, 'user_post', 'post_id')->wherePivot('like', '=', false);
+    }
+
+    public function getParentPostUserName()
+    {
+        return $this->parent?->user?->name;
     }
 }
