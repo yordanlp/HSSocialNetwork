@@ -17,14 +17,12 @@ class FeedController extends Controller
 
         $posts = Post::orderBy("created_at", "desc")
             ->whereNull('post_id')
-            ->where(function ($query) use ($following_users) {
-                $query->whereIn('id', $following_users)
-                    ->orWhere('is_public', '=', true);
+            ->where(function ($query) use ($following_users, $user) {
+                $query->whereIn('user_id', $following_users)
+                    ->orWhere('is_public', '=', true)
+                    ->orWhere('user_id', '=', $user->id);
             })
-            ->with('user')
-            ->with('comments')
-            ->with('likes')
-            ->with('dislikes')
+            ->with('user', 'comments', 'likes', 'dislikes', 'media')
             ->get();
 
         return view("feed", [
