@@ -9,7 +9,7 @@
             @endforeach
         </div>
         <div class="col-4 d-flex align-items-center p-4">
-            <x-create-post :parent_post="$post->id"/>
+            <x-create-post :parent_post="$post->id" action='{{route("post.store")}}' method='post' is_public='0' message='' />
         </div>
     </div>
 </x-layout>
