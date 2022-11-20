@@ -9,7 +9,7 @@ class ProfileController extends Controller
 {
     public function Index($user_id)
     {
-        $user = User::with('posts', 'posts.comments', 'posts.user', 'posts.likes', 'posts.dislikes', 'followers', 'following', 'posts.media')->find($user_id);
+        $user = User::with('posts', 'posts.comments', 'posts.user', 'posts.likes', 'posts.dislikes', 'followers', 'following', 'posts.media')->findOrFail($user_id);
         return view("profile", [
             "user" => $user
         ]);
