@@ -18,7 +18,6 @@ class PostFactory extends Factory
     {
 
         return [
-            "photo" => null,
             "message" => fake()->sentence(12),
             "is_public" => fake()->boolean(50)
         ];

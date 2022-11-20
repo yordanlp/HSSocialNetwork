@@ -19,13 +19,13 @@ class PostController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            "message" => "required|max:250"
+            "message" => "required|max:250",
+            "photo" => "image|mimes:jpeg,png,jpg,gif,svg|max:10000"
         ]);
 
         //TODO: upload the photo to the server and get the route to the photo
 
         $user_id = $user->id;
-        $photo_route = null;
         $is_public = false;
         if ($request->is_public != null)
             $is_public = true;
