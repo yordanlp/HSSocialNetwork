@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,4 +50,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/follow/{user_id}', [UserController::class, 'follow'])->name("user.follow");
 
     Route::put('/user', [UserController::class, 'update'])->name('user.update');
+});
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('users');
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/posts', [AdminController::class, 'posts'])->name('posts');
+    Route::delete('/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('user.delete');
 });
