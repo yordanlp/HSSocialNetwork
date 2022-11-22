@@ -12,7 +12,8 @@ class Navigation extends Component
     public $nav_items = [];
     public function __construct()
     {
-        $this->nav_items = $this->getUrlFromRoute(config('appsettings.navigation'));
+        $nav_user = auth()->user()->is_admin ? "admin" : "normal_user";
+        $this->nav_items = $this->getUrlFromRoute(config('appsettings.navigation')[$nav_user]);
     }
 
     private function getUrlFromRoute($nav_items)
