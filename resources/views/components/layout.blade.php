@@ -16,10 +16,9 @@
 
     <!-- Scripts -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
-    <!-- Custom fonts for this template-->
 
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    {{-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> --}}
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
@@ -54,11 +53,10 @@
                             </form>
                             @endauth
 
-                            <ul class="navbar-nav mb-2 mb-lg-0 ml-auto d-flex gap-3">
+                            <ul class="navbar-nav mb-2 mb-lg-0 d-flex gap-3 ml-auto" style="margin-left: 10px;">
 
                                 @auth
                                     <li class="nav-item">
-
                                         <a href="{{route("user.show", auth()->user()->id)}}" style="color: white;" class="d-flex align-items-center gap-2">
                                             <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src='{{ auth()->user()->getProfilePictureUrl() }}' alt="user avatar" />
                                             <div>{{auth()->user()->name}}</div>
@@ -97,13 +95,13 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
+            {{-- <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2021</span>
                     </div>
                 </div>
-            </footer>
+            </footer> --}}
             <!-- End of Footer -->
 
         </div>

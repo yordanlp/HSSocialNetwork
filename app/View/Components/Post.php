@@ -26,7 +26,7 @@ class Post extends Component
     {
         if ($this->post->getParentPostUserName() == null)
             return "";
-        return "Replying to " . $this->post->getParentPostUserName();
+        return $this->post->getParentPostUserName();
     }
 
     /**

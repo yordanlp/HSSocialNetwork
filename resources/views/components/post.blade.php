@@ -1,5 +1,5 @@
-<div class="card m-auto" style="width: 100%">
-    <div class="d-flex p-1 align-items-center gap-2">
+<div class="card m-auto post_card" style="width: 100%">
+    <div class="d-flex p-1 align-items-center gap-2 post_header">
         @if ($post->user->photo == null)
             <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src='{{ $post->user->getProfilePictureUrl() }}' alt="user avatar" />
         @else
@@ -8,17 +8,26 @@
 
         <a href="{{route("user.show", $post->user->id)}}">{{$post->user->name}}</a>
 
-        <a href="{{route("post.show", $post->parent?->id ?? -1 )}}">{{$getIfItsReply()}}</a>
+        @if( $post->getParentPostUserName() != null )
+            <i class="fa fa-paper-plane" title="Replied to"></i>
+            <a href="{{route("post.show", $post->parent?->id ?? -1 )}}">
+                {{$getIfItsReply()}}
+            </a>
+        @endif
 
+        <div class="" style="margin-left: auto">{{$post->created_at}}</div>
         @if ( auth()->check() && auth()->user()->id == $post->user_id)
-            <a class="btn btn-warning ml-auto" href="{{route("post.edit", $post->id)}}">Edit Post</a>
+            <a class="btn ml-auto" href="{{route("post.edit", $post->id)}}" title="Edit">
+                <i class="fa fa-edit"></i>
+            </a>
             <form method="post" action="{{route('post.destroy', $post->id)}}" enctype="multipart/form-data">
                 @method("delete")
                 @csrf
-                <button class="btn btn-danger" type="submit">Delete Post</button>
+                <button class="btn" type="submit" title="delete">
+                    <i class="fa fa-trash"></i>
+                </button>
             </form>
         @endif
-        <div class="" style="margin-left: auto">{{$post->created_at}}</div>
     </div>
 
     @if ($post->media->first()?->getUrl() != null)
@@ -35,16 +44,22 @@
         <form method="post" action="{{route("post.like", $post->id)}}">
             @csrf
             <input name="like" type="checkbox" checked hidden>
-            <button type="submit" class="btn btn-primary">Like</button>
+            <button type="submit" class="btn" title="Like">
+                <i class="fa fa-thumbs-up"></i>
+            </button>
         </form>
         <div style="color: blue;">{{$post->likes->count()}}</div>
         <form method="post" action="{{route("post.like", $post->id)}}">
             @csrf
             <input name="like" type="checkbox" hidden>
-            <button type="submit" class="btn btn-danger">Dislike</button>
+            <button type="submit" class="btn" title="dislike">
+                <i class="fa fa-thumbs-down"></i>
+            </button>
         </form>
         <div style="color: red">{{$post->dislikes->count()}}</div>
-        <a href="{{route("post.show", $post->id)}}" class="btn btn-success">Comments</a>
+        <a href="{{route("post.show", $post->id)}}" class="btn" title="Comment" >
+            <i class="fa fa-envelope"></i>
+        </a>
         <div style="color: green">{{count($post->comments)}}</div>
     </div>
 </div>
