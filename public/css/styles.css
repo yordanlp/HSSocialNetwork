@@ -74,7 +74,7 @@ select {
 }
 
 body{
-    background-color: rgb(82, 57, 150);
+    /* background-color: rgb(82, 57, 150); */
 }
 
 .user_card{
@@ -101,6 +101,10 @@ body{
     flex-wrap: wrap;
 }
 
+.user-avatar{
+    width: 40px;
+    border-radius: 50%;
+}
 
 .create_post{
     border: 1px solid grey;
