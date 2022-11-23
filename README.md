@@ -65,7 +65,6 @@ Start the server
 
 ```bash
   php artisan serve
-  npm run dev
 ```
 
 
