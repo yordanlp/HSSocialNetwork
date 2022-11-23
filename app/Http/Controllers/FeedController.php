@@ -18,7 +18,7 @@ class FeedController extends Controller
         $posts = Post::orderBy("created_at", "desc")
             ->whereIn('user_id', $following_users)
             ->orWhere('is_public', '=', true)
-            ->with('user', 'comments', 'likes', 'dislikes', 'media', 'parent')
+            ->with('user', 'comments', 'likes', 'dislikes', 'media', 'parent', 'user.media')
             ->get();
 
         return view("feed", [
