@@ -53,7 +53,7 @@
                             </form>
                             @endauth
 
-                            <ul class="navbar-nav mb-2 mb-lg-0 d-flex gap-3 ml-auto" style="margin-left: 10px;">
+                            <ul class="navbar-nav mb-2 mb-lg-0 d-flex gap-3" style="margin-left: auto;">
 
                                 @auth
                                     <li class="nav-item">
