@@ -22,7 +22,7 @@
                             <td> {{$user->email}} </td>
                             <td> {{count($user->posts)}}  </td>
                             <td>
-                                <form action="{{route('admin.user.delete', $user->id)}}" method="POST">
+                                <form action="{{route('admin.user.destroy', $user->id)}}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button style="background: none; border: none; text-decoration: underline; color: blue" type="submit" >Delete</button>

@@ -16,7 +16,17 @@
         @endif
 
         <div class="" style="margin-left: auto">{{$post->created_at}}</div>
-        @if ( auth()->check() && auth()->user()->id == $post->user_id)
+
+        @if ( auth()->check() && auth()->user()->is_admin && $isAdminRoute() )
+            <form method="post" action="{{route('admin.post.destroy', $post->id)}}" enctype="multipart/form-data">
+                @method("delete")
+                @csrf
+                <button class="btn" type="submit" title="delete">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </form>
+
+        @elseif ( auth()->check() && auth()->user()->id == $post->user_id )
             <a class="btn ml-auto" href="{{route("post.edit", $post->id)}}" title="Edit">
                 <i class="fa fa-edit"></i>
             </a>
@@ -41,25 +51,32 @@
         <p class="card-text">{{$post->message}}</p>
     </div>
     <div class="d-flex gap-3 align-items-center p-2">
-        <form method="post" action="{{route("post.like", $post->id)}}">
-            @csrf
-            <input name="like" type="checkbox" checked hidden>
-            <button type="submit" class="btn" title="Like">
-                <i class="fa fa-thumbs-up"></i>
-            </button>
-        </form>
+        @if( ! $isAdminRoute() )
+            <form method="post" action="{{route("post.like", $post->id)}}">
+                @csrf
+                <input name="like" type="checkbox" checked hidden>
+                <button type="submit" class="btn" title="Like">
+                    <i class="fa fa-thumbs-up"></i>
+                </button>
+            </form>
+        @endif
         <div style="color: blue;">{{$post->likes->count()}}</div>
+        @if( ! $isAdminRoute() )
         <form method="post" action="{{route("post.like", $post->id)}}">
             @csrf
             <input name="like" type="checkbox" hidden>
-            <button type="submit" class="btn" title="dislike">
-                <i class="fa fa-thumbs-down"></i>
-            </button>
+
+                <button type="submit" class="btn" title="dislike">
+                    <i class="fa fa-thumbs-down"></i>
+                </button>
         </form>
+        @endif
         <div style="color: red">{{$post->dislikes->count()}}</div>
-        <a href="{{route("post.show", $post->id)}}" class="btn" title="Comment" >
-            <i class="fa fa-envelope"></i>
-        </a>
+        @if( ! $isAdminRoute() )
+            <a href="{{route("post.show", $post->id)}}" class="btn" title="Comment" >
+                <i class="fa fa-envelope"></i>
+            </a>
+        @endif
         <div style="color: green">{{count($post->comments)}}</div>
     </div>
 </div>

@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\View\Component;
 
@@ -12,9 +13,18 @@ class Navigation extends Component
     public $nav_items = [];
     public function __construct()
     {
-        $nav_user = auth()->user()->is_admin ? "admin" : "normal_user";
+        $nav_user = $this->isAdminRoute() ? "admin" : "normal_user";
         $this->nav_items = $this->getUrlFromRoute(config('appsettings.navigation')[$nav_user]);
     }
+
+    private function isAdminRoute()
+    {
+        $splitted_route = explode("/", Route::getFacadeRoot()->current()->uri());
+        if (count($splitted_route) > 0 && strtolower($splitted_route[0]) === "admin")
+            return true;
+        return false;
+    }
+
 
     private function getUrlFromRoute($nav_items)
     {

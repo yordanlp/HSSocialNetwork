@@ -21,13 +21,20 @@ class AdminController extends Controller
 
     public function posts()
     {
-        $posts = Post::all();
+
+        $posts = Post::with('user', 'comments', 'likes', 'dislikes', 'media', 'parent')->get();
         return view('admin.posts', compact('posts'));
     }
 
     public function deleteUser($id)
     {
         User::findOrFail($id)->delete();
+        return redirect()->back();
+    }
+
+    public function deletePost($id)
+    {
+        Post::findOrFail($id)->delete();
         return redirect()->back();
     }
 }

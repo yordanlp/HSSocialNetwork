@@ -3,9 +3,8 @@
 namespace App\View\Components;
 
 use App\Models\Post as ModelsPost;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
-
-use function PHPUnit\Framework\returnSelf;
 
 class Post extends Component
 {
@@ -27,6 +26,14 @@ class Post extends Component
         if ($this->post->getParentPostUserName() == null)
             return "";
         return $this->post->getParentPostUserName();
+    }
+
+    public function isAdminRoute()
+    {
+        $splitted_route = explode("/", Route::getFacadeRoot()->current()->uri());
+        if (count($splitted_route) > 0 && strtolower($splitted_route[0]) === "admin")
+            return true;
+        return false;
     }
 
     /**
