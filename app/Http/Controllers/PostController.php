@@ -110,10 +110,20 @@ class PostController extends Controller
     {
         $like = $request->like === "on" ? true : false;
         $user = Auth::user();
-        $like = UserPost::updateOrCreate(
-            ['user_id' => $user->id, "post_id" => $post_id],
-            ['like' => $like]
-        );
+        $post = Post::findOrFail($post_id);
+        $user_likes_post = $user->likes_post($post_id);
+        $user_dislikes_post = $user->dislikes_post($post_id);
+        $post->likes()->detach($user->id);
+        $post->dislikes()->detach($user->id);
+
+        if ($like && !$user_likes_post) {
+            $post->likes()->attach($user->id, ['like' => true]);
+        }
+
+        if (!$like && !$user_dislikes_post) {
+            $post->dislikes()->attach($user->id, ['like' => false]);
+        }
+
         return redirect()->back();
     }
 }

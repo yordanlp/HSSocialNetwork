@@ -69,6 +69,27 @@ class User extends Authenticatable implements HasMedia
         return $this->followers()->where('id', '=', $user_id)->count() > 0;
     }
 
+
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'user_post', 'user_id')->wherePivot('like', '=', true);
+    }
+
+    public function dislikes()
+    {
+        return $this->belongsToMany(Post::class, 'user_post', 'user_id')->wherePivot('like', '=', false);
+    }
+
+    public function likes_post($post_id)
+    {
+        return $this->likes()->wherePivot('post_id', '=', $post_id)->count() > 0;
+    }
+
+    public function dislikes_post($post_id)
+    {
+        return $this->dislikes()->wherePivot('post_id', '=', $post_id)->count() > 0;
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('profile_picture');

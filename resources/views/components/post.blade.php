@@ -56,7 +56,7 @@
                 @csrf
                 <input name="like" type="checkbox" checked hidden>
                 <button type="submit" class="btn" title="Like">
-                    <i class="fa fa-thumbs-up"></i>
+                    <i class="fa fa-thumbs-up" style="@if(auth()->user()?->likes_post($post->id)) color: blue; @endif"></i>
                 </button>
             </form>
         @endif
@@ -67,7 +67,7 @@
             <input name="like" type="checkbox" hidden>
 
                 <button type="submit" class="btn" title="dislike">
-                    <i class="fa fa-thumbs-down"></i>
+                    <i class="fa fa-thumbs-down" style="@if(auth()->user()?->dislikes_post($post->id)) color: red; @endif"></i>
                 </button>
         </form>
         @endif
