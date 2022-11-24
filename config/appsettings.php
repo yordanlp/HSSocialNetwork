@@ -23,10 +23,6 @@ return [
         ],
         'admin' => [
             [
-                'title' => 'Admin Dashboard',
-                'route' => 'admin.admin'
-            ],
-            [
                 'title' => 'Users',
                 'route' => 'admin.users'
             ],

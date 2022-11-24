@@ -11,18 +11,13 @@ class Navigation extends Component
 {
 
     public $nav_items = [];
+    public $admin_items = [];
     public function __construct()
     {
-        $nav_user = $this->isAdminRoute() ? "admin" : "normal_user";
-        $this->nav_items = $this->getUrlFromRoute(config('appsettings.navigation')[$nav_user]);
-    }
-
-    private function isAdminRoute()
-    {
-        $splitted_route = explode("/", Route::getFacadeRoot()->current()->uri());
-        if (count($splitted_route) > 0 && strtolower($splitted_route[0]) === "admin")
-            return true;
-        return false;
+        $this->nav_items = $this->getUrlFromRoute(config('appsettings.navigation')["normal_user"]);
+        if (auth()->user()->is_admin) {
+            $this->admin_items = $this->getUrlFromRoute(config('appsettings.navigation')["admin"]);
+        }
     }
 
 
