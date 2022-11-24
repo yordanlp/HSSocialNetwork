@@ -41,6 +41,18 @@ class Post extends Model implements HasMedia
         return $this->belongsToMany(User::class, 'user_post', 'post_id')->wherePivot('like', '=', false);
     }
 
+    public function getIsLikedByUserAttribute()
+    {
+        $result = $this->likes()->wherePivot('user_id', '=', auth()->id)->wherePivot('like', '=', true)->count();
+        return $result > 0;
+    }
+
+    public function getIsDislikedByUserAttribute()
+    {
+        $result = $this->likes()->wherePivot('user_id', '=', auth()->id)->wherePivot('like', '=', false)->count();
+        return $result > 0;
+    }
+
     public function getParentPostUserName()
     {
         return $this->parent?->user?->name;

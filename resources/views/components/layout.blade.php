@@ -49,7 +49,7 @@
                             @auth
                                 <x-Navigation/>
                             <form class="d-flex" style="margin-left: auto" method="get" action="{{route("feed.index")}}">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" value="{{ request()->query('search') ?? "" }}" aria-label="Search" name="search">
                                 <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                             @endauth
