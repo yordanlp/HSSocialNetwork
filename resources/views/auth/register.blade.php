@@ -1,4 +1,5 @@
 <x-layout>
+    <script src="https://cdn.tailwindcss.com"></script>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
