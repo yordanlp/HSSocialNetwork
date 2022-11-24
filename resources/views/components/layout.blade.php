@@ -30,7 +30,7 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" style="background-color: #eee">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -59,7 +59,7 @@
                                 @auth
                                     <li class="nav-item">
                                         <a href="{{route("user.show", auth()->user()->id)}}" style="color: white;" class="d-flex align-items-center gap-2">
-                                            <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src='{{ auth()->user()->getProfilePictureUrl() }}' alt="user avatar" />
+                                            <img clas="user-avatar" style="width: 40px; border-radius: 50%;aspect-ratio: 1;" src='{{ auth()->user()->getProfilePictureUrl() }}' alt="user avatar" />
                                             <div>{{auth()->user()->name}}</div>
                                         </a>
                                     </li>
@@ -88,7 +88,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid" style="margin-top: 73px">
+                <div class="container-fluid" style="margin-top: 73px;">
                     {{ $slot }}
                 </div>
 

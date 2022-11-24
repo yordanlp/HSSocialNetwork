@@ -1,9 +1,9 @@
 <div class="card m-auto post_card" style="width: 100%">
     <div class="d-flex p-1 align-items-center gap-2 post_header">
         @if ($post->user->photo == null)
-            <img clas="user-avatar" style="width: 40px; border-radius: 50%;" src='{{ $post->user->getProfilePictureUrl() }}' alt="user avatar" />
+            <img clas="user-avatar" style="width: 40px; border-radius: 50%;aspect-ratio: 1;" src='{{ $post->user->getProfilePictureUrl() }}' alt="user avatar" />
         @else
-            <img clas="user-avatar" style="width: 40px" src="{{$post->user->photo}}" alt="user avatar" />
+            <img clas="user-avatar" style="width: 40px; border-radius: 50%;aspect-ratio: 1;" src="{{$post->user->photo}}" alt="user avatar" />
         @endif
 
         <a href="{{route("user.show", $post->user->id)}}">{{$post->user->name}}</a>

@@ -51,7 +51,7 @@
     </div>
     <div class="row">
         <div class="col-3">
-            Followers
+            <h3>Followers</h3>
             @foreach ($user->followers as $follower)
                 <x-UserCard :user="$follower"/>
             @endforeach
@@ -62,7 +62,7 @@
             @endforeach
         </div>
         <div class="col-3">
-            Following
+            <h3>Following</h3>
             @foreach ($user->following as $following)
                 <x-UserCard :user="$following"/>
             @endforeach

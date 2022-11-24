@@ -1,4 +1,4 @@
-<div>
+<div style="width: 80%;">
     <div class="table-responsive">
         <table class="table table-striped
         table-hover
