@@ -20,15 +20,11 @@ class UserController extends Controller
     public function follow($user_id, Request $request)
     {
         $user = Auth::user();
-        $follows = Follow::where('follower_user_id', '=', $user->id)->where('following_user_id', '=', $user_id)->get();
-        if (count($follows) == 0)
-            Follow::create([
-                'follower_user_id' => $user->id,
-                'following_user_id' => $user_id
-            ]);
+        $is_following = $user->following()->where('following_user_id', '=', $user_id)->count() > 0;
+        if (!$is_following)
+            $user->following()->attach($user_id);
         else {
-            $ids = $follows->map(fn ($f) => $f->id);
-            Follow::where('follower_user_id', '=', $user->id)->where('following_user_id', '=', $user_id)->delete();
+            $user->following()->detach($user_id);
         }
         return redirect()->back();
     }
@@ -36,8 +32,6 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $user = auth()->user();
-
-        //dd($request->all());
         $validated = $request->validate([
             "profile_picture" => ["image", "mimes:jpeg,png,jpg,gif,svg", "nullable", "file"],
             "cover_picture" => ["image", "mimes:jpeg,png,jpg,gif,svg", "nullable", "file"]
