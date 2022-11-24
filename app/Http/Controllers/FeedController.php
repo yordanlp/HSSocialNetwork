@@ -13,7 +13,6 @@ class FeedController extends Controller
     public function Index(Request $request)
     {
         $search = $request->query('search') ?? "";
-        //TODO: Retrieve only friends posts and public posts
         $user = auth()->user();
         $is_logged_in = Auth::check();
         $following_users = $is_logged_in ? $user->following->map(fn ($f) => $f['id'])->toArray() : [];
@@ -28,8 +27,11 @@ class FeedController extends Controller
             })
             ->where(function ($query) use ($following_users) {
                 return $query->whereIn('user_id', $following_users)->orWhere('is_public', '=', true);
-            })
-            ->paginate(15);
+            })->paginate(15, ['posts.*']);
+
+
+
+        ray($posts);
 
         return view("feed", [
             'posts' => $posts
