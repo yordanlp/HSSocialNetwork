@@ -22,6 +22,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -47,8 +48,8 @@
                         <div class="navbar" style="width: 100%;">
                             @auth
                                 <x-Navigation/>
-                            <form class="d-flex ml-auto">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <form class="d-flex" style="margin-left: auto" method="get" action="{{route("feed.index")}}">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                                 <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                             @endauth
@@ -109,11 +110,6 @@
 
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
 </body>
 
