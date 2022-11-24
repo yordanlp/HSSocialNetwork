@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'isUserAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::get('/posts', [AdminController::class, 'posts'])->name('posts');
     Route::delete('/user/{id}', [AdminController::class, 'deleteUser'])->name('user.destroy');
