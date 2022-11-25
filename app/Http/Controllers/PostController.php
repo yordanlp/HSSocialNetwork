@@ -99,7 +99,20 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::with('likes', 'dislikes', 'media', 'user', 'comments', 'user.media')->findOrFail($id);
+        $post = Post::with(
+            'likes',
+            'dislikes',
+            'media',
+            'user',
+            'user.media',
+            'comments',
+            'comments.user',
+            'comments.parent',
+            'comments.media',
+            'comments.likes',
+            'comments.dislikes',
+            'comments.comments'
+        )->findOrFail($id);
         return view("posts.show", [
             "post" => $post
         ]);

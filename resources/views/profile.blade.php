@@ -56,7 +56,7 @@
                 <x-UserCard :user="$follower"/>
             @endforeach
         </div>
-        <div class="col-6">
+        <div class="col-6" style="display: flex; flex-direction: column; gap: 10px;">
             @foreach ( $user->posts as $post)
                 <x-Post :post="$post"/>
             @endforeach

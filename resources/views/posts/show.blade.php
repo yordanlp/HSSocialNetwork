@@ -3,7 +3,7 @@
         <div class="col-4 d-flex align-items-center p-4">
             <x-Post :post="$post"/>
         </div>
-        <div class="col-4 overflow-auto" style="height: 80vh">
+        <div class="col-4 overflow-auto" style="height: 80vh; display: flex; flex-direction: column; gap: 5px;">
             @foreach ($post->comments as $comment)
                 <x-Post :post="$comment"/>
             @endforeach
