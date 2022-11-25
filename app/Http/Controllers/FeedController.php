@@ -29,10 +29,6 @@ class FeedController extends Controller
                 return $query->whereIn('user_id', $following_users)->orWhere('is_public', '=', true);
             })->paginate(15, ['posts.*']);
 
-
-
-        ray($posts);
-
         return view("feed", [
             'posts' => $posts
         ]);
