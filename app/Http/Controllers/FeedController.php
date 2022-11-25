@@ -23,7 +23,8 @@ class FeedController extends Controller
             ->where(function ($query) use ($search) {
                 if ($search == "")
                     return $query;
-                return $query->where("message", 'like', "%" . $search . "%")->orWhere("users.name", 'like', "%" . $search . "%");
+                return $query->where("message", 'like', "%" . $search . "%")
+                    ->orWhere("users.name", 'like', "%" . $search . "%");
             })
             ->where(function ($query) use ($following_users) {
                 return $query->whereIn('user_id', $following_users)->orWhere('is_public', '=', true);
