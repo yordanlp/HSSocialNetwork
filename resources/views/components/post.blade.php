@@ -15,7 +15,7 @@
             </a>
         @endif
 
-        <div class="" style="margin-left: auto">{{$post->created_at}}</div>
+        <div class="" style="margin-left: auto">{{$post->created_at->diffForHumans()}}</div>
 
         @if ( auth()->check() && auth()->user()->is_admin && $isAdminRoute() )
             <form method="post" action="{{route('admin.post.destroy', $post->id)}}" enctype="multipart/form-data">

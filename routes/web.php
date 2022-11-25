@@ -19,19 +19,18 @@ use PHPUnit\TextUI\XmlConfiguration\Group;
 |
 */
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
 
+//Public Routes
+
 Route::get('/', [FeedController::class, 'Index'])->name("feed.index");
+
+// User Routes
 
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile/{id}', [ProfileController::class, 'Index'])->name("user.show");
-
-    Route::get('/people', [UserController::class, 'Index'])->name("user.index");
 
     Route::get('/post/create', [PostController::class, 'create'])->name("post.create");
 
@@ -50,9 +49,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/follow/{user_id}', [UserController::class, 'follow'])->name("user.follow");
 
     Route::put('/user', [UserController::class, 'update'])->name('user.update');
+
+    Route::get('/people', [UserController::class, 'Index'])->name("user.index");
 });
 
 
+//Admin Routes
 Route::middleware(['auth', 'isUserAdmin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/users', [AdminController::class, 'users'])->name('users');
     Route::get('/posts', [AdminController::class, 'posts'])->name('posts');
