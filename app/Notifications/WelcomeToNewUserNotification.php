@@ -30,7 +30,7 @@ class WelcomeToNewUserNotification extends Notification
             ->greeting("Hello {$notifiable->name},")
             ->subject('Welcome to Harbour Space Social Network')
             ->line('This is a place to share your ideas and best pictures')
-            ->line('Here is a list of our top ' . count($this->top_users) . ' users with more posts so you can follow them if you are interested:<br/>' . $list . '.')
+            ->line('Here is a list of ' . count($this->top_users) . ' users with so you can follow them if you are interested:<br/>' . $list . '.')
             ->action('Share with your friends on campus', url('/'))
             ->line('Thank you for using our application!')
             ->salutation('Greetings from the Yordan');

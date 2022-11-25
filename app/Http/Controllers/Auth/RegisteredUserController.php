@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $top_uers = User::take(3)->get();
+        $top_uers = User::inRandomOrder()->take(5)->get();
         $user->notify(new WelcomeToNewUserNotification($top_uers));
         event(new Registered($user));
 
