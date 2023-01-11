@@ -10,6 +10,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "spatie/laravel-ignition": "^1.6",
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-ray": "^1.31",
         "symfony/http-client": "^6.1",
@@ -24,8 +25,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
-        "roave/security-advisories": "dev-latest",
-        "spatie/laravel-ignition": "^1.0"
+        "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "psr-4": {
