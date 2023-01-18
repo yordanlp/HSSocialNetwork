@@ -12,11 +12,12 @@ use function PHPUnit\Framework\returnSelf;
 
 class GoogleTranslate
 {
-    private string $api_key = "AIzaSyCW69t5qNg4118tniWUxCJe85yKVFISF4Q";
+    private string $api_key = "";
     private string $base_url = "https://translation.googleapis.com/language/translate/v2/";
     private $supported_languages = null;
     public function __construct()
     {
+        $this->api_key = config('exteral-services.google_translate.api_key');
         $this->supported_languages = $this->get_languages();
     }
 
