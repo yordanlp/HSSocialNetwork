@@ -17,7 +17,7 @@ class GoogleTranslate
     private $supported_languages = null;
     public function __construct()
     {
-        $this->api_key = config('exteral-services.google_translate.api_key');
+        $this->api_key = config('external-services.google_translate.api_key');
         $this->supported_languages = $this->get_languages();
     }
 
