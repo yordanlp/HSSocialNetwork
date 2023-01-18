@@ -25,10 +25,13 @@ class GoogleTranslate
         if ($source == null)
             $source = $this->detect_language($text);
 
+        if ($source == $target)
+            return $text;
+
         if (!$this->is_supported_language($source))
-            throw new NotSupportedLanguageException("Language {$source} is not supported for translation");
+            throw new NotSupportedLanguageException("Language '{$source}' is not supported for translation");
         if (!$this->is_supported_language($target))
-            throw new NotSupportedLanguageException("Language {$target} is not supported for translation");
+            throw new NotSupportedLanguageException("Language '{$target}' is not supported for translation");
 
         if ($target == null)
             throw new NullTargetLanguageException("Target language must not be null");
