@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\NullTargetLanguageException;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use SebastianBergmann\CodeCoverage\Report\Xml\Source;
@@ -19,8 +20,8 @@ class GoogleTranslate
         if ($source == null)
             $source = $this->detect_language($text);
 
-        /*if ($target == null)
-            throw new NullTargetLanguageException("Target language should not be null");*/
+        if ($target == null)
+            throw new NullTargetLanguageException("Target language must not be null");
 
         $data = $this->get_request('', [
             'q' => $text,
