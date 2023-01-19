@@ -4,11 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\NotSupportedLanguageException;
 use App\Exceptions\NullTargetLanguageException;
-use Exception;
 use Illuminate\Support\Facades\Http;
-use SebastianBergmann\CodeCoverage\Report\Xml\Source;
-
-use function PHPUnit\Framework\returnSelf;
 
 class GoogleTranslate
 {
@@ -18,26 +14,26 @@ class GoogleTranslate
     public function __construct()
     {
         $this->api_key = config('external-services.google_translate.api_key');
-        $this->supported_languages = $this->get_languages();
+        $this->supported_languages = $this->getLanguages();
     }
 
     public function translate(string $text, string $target, string $source = null)
     {
         if ($source == null)
-            $source = $this->detect_language($text);
+            $source = $this->detectLanguage($text);
 
         if ($source == $target)
             return $text;
 
-        if (!$this->is_supported_language($source))
+        if (!$this->isSupportedLanguage($source))
             throw new NotSupportedLanguageException("Language '{$source}' is not supported for translation");
-        if (!$this->is_supported_language($target))
+        if (!$this->isSupportedLanguage($target))
             throw new NotSupportedLanguageException("Language '{$target}' is not supported for translation");
 
         if ($target == null)
             throw new NullTargetLanguageException("Target language must not be null");
 
-        $data = $this->get_request('', [
+        $data = $this->getRequest('', [
             'q' => $text,
             'target' => $target,
             'source' => $source
@@ -46,26 +42,26 @@ class GoogleTranslate
         return $data->data->translations[0]->translatedText;
     }
 
-    public function is_supported_language(string $language)
+    public function isSupportedLanguage(string $language)
     {
         return $this->supported_languages->contains($language);
     }
 
-    public function get_languages()
+    public function getLanguages()
     {
-        $data = $this->get_request('languages');
+        $data = $this->getRequest('languages');
         return collect($data->data->languages)->map(fn ($lang) => $lang->language);
     }
 
-    public function detect_language($text)
+    public function detectLanguage($text)
     {
-        $data = $this->get_request('detect', [
+        $data = $this->getRequest('detect', [
             'q' => $text
         ]);
         return $data->data->detections[0][0]->language;
     }
 
-    public function get_request($endpoint, $params = [])
+    public function getRequest($endpoint, $params = [])
     {
         $data = array_merge($params, ["key" => $this->api_key]);
         $response = Http::get($this->base_url . $endpoint, $data);
