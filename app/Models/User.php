@@ -69,6 +69,11 @@ class User extends Authenticatable implements HasMedia
         return $this->followers()->where('id', '=', $user_id)->count() > 0;
     }
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'user_id');
+    }
+
 
     public function likes()
     {
