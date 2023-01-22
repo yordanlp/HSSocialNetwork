@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+    @if ( $uses_livewire )
+        @livewireStyles
+    @endif
 
 </head>
 
@@ -52,9 +55,10 @@
                                 <input class="form-control me-2" type="search" placeholder="Search" value="{{ request()->query('search') ?? "" }}" aria-label="Search" name="search">
                                 <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
+                            <livewire:language-selector />
                             @endauth
 
-                            <ul class="navbar-nav mb-2 mb-lg-0 d-flex gap-3" style="margin-left: auto;">
+                            <ul class="navbar-nav mb-2 mb-lg-0 d-flex gap-3" style="margin-left: 10px;">
 
                                 @auth
                                     <li class="nav-item">
@@ -112,5 +116,9 @@
     <!-- End of Page Wrapper -->
 
 </body>
+
+@if( $uses_livewire )
+    @livewireScripts
+@endif
 
 </html>
