@@ -138,3 +138,17 @@ body{
     border-bottom: 1px solid black;
     margin-bottom: 5px;
 }
+
+.language_selector img{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.language_selector img:hover{
+    opacity: 1;
+}
+
+.language_selector .active > img{
+    border-radius: 8px;
+    opacity: 1;
+}
