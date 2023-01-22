@@ -11,9 +11,10 @@ class layout extends Component
      *
      * @return void
      */
-    public function __construct()
+    public bool $uses_livewire;
+    public function __construct(bool $usesLivewire = false)
     {
-        //
+        $this->uses_livewire = $usesLivewire;
     }
 
     /**
