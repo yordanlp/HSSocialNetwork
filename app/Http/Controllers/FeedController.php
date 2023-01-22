@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\GoogleTranslate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -29,6 +31,8 @@ class FeedController extends Controller
             ->where(function ($query) use ($following_users) {
                 return $query->whereIn('user_id', $following_users)->orWhere('is_public', '=', true);
             })->paginate(15, ['posts.*']);
+
+        Session::put('feed-posts', $posts);
 
         return view("feed", [
             'posts' => $posts

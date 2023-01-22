@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :usesLivewire="true">
     <div class="row">
         <div class="d-flex justify-content-center align-items-center" style="
             background-image: url('{{ $user->getCoverPictureUrl() }}');
@@ -57,9 +57,7 @@
             @endforeach
         </div>
         <div class="col-6" style="display: flex; flex-direction: column; gap: 10px;">
-            @foreach ( $user->posts as $post)
-                <x-Post :post="$post"/>
-            @endforeach
+            <livewire:posts-wrapper section="profile-posts"/>
         </div>
         <div class="col-3">
             <h3>Following</h3>
