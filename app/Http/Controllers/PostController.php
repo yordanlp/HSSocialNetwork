@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -113,6 +114,7 @@ class PostController extends Controller
             'comments.dislikes',
             'comments.comments'
         )->findOrFail($id);
+        Session::put('comments', $post->comments);
         return view("posts.show", [
             "post" => $post
         ]);
