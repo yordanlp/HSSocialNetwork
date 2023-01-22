@@ -10,36 +10,46 @@ class GoogleTranslate
 {
     private string $api_key = "";
     private string $base_url = "https://translation.googleapis.com/language/translate/v2/";
-    private $supported_languages = null;
+    public $supported_languages = null;
     public function __construct()
     {
         $this->api_key = config('external-services.google_translate.api_key');
         $this->supported_languages = $this->getLanguages();
     }
 
-    public function translate(string $text, string $target, string $source = null)
+    public function translate(string $text, ?string $target)
     {
-        if ($source == null)
-            $source = $this->detectLanguage($text);
 
-        if ($source == $target)
-            return $text;
-
-        if (!$this->isSupportedLanguage($source))
-            throw new NotSupportedLanguageException("Language '{$source}' is not supported for translation");
         if (!$this->isSupportedLanguage($target))
             throw new NotSupportedLanguageException("Language '{$target}' is not supported for translation");
 
         if ($target == null)
             throw new NullTargetLanguageException("Target language must not be null");
 
-        $data = $this->getRequest('', [
+        $data = $this->postRequest('', [
             'q' => $text,
-            'target' => $target,
-            'source' => $source
+            'target' => $target
         ]);
 
         return $data->data->translations[0]->translatedText;
+    }
+
+    public function translateMany($texts, ?string $target)
+    {
+
+        if (!$this->isSupportedLanguage($target))
+            throw new NotSupportedLanguageException("Language '{$target}' is not supported for translation");
+
+        if ($target == null)
+            throw new NullTargetLanguageException("Target language must not be null");
+
+
+        $data = $this->postRequest('', [
+            'q' => $texts,
+            'target' => $target
+        ]);
+
+        return $data->data->translations;
     }
 
     public function isSupportedLanguage(string $language)
@@ -55,16 +65,22 @@ class GoogleTranslate
 
     public function detectLanguage($text)
     {
-        $data = $this->getRequest('detect', [
+        $data = $this->postRequest('detect', [
             'q' => $text
         ]);
         return $data->data->detections[0][0]->language;
     }
 
-    public function getRequest($endpoint, $params = [])
+    private function postRequest($endpoint, $params = [])
     {
-        $data = array_merge($params, ["key" => $this->api_key]);
-        $response = Http::get($this->base_url . $endpoint, $data);
+        $response = Http::post($this->base_url . $endpoint . "?key=" . $this->api_key, $params);
+        return json_decode($response->body());
+    }
+
+    private function getRequest($endpoint, $params = [])
+    {
+        $data = array_merge($params, ['key' => $this->api_key]);
+        $response = Http::get($this->base_url . $endpoint . "?" . http_build_query($data));
         return json_decode($response->body());
     }
 }
