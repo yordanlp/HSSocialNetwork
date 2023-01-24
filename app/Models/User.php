@@ -110,4 +110,16 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->getMedia("cover_picture")->first()?->getUrl() ?? Request::root() . "/static/images/cover_picture.jpg";
     }
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            Profile::create([
+                'user_id' => $user->id,
+                'language' => 'en',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        });
+    }
 }
