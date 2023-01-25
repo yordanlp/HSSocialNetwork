@@ -11,6 +11,9 @@ class PostService
     {
         $following_users = ($user != null) ? $user->following->map(fn ($f) => $f['id'])->toArray() : [];
 
+        if ($user != null)
+            array_push($following_users, $user->id);
+
         $posts = Post::orderBy("posts.created_at", "desc")
             ->with('user', 'comments', 'likes', 'dislikes', 'media', 'parent', 'user.media')
             ->join('users', 'users.id', '=', 'posts.user_id')
