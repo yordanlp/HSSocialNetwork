@@ -15,7 +15,6 @@ class LanguageSelector extends Component
 
     public function changeLanguage($language)
     {
-        ray($language);
         auth()->user()->profile->update(['language' => $language]);
         $this->emit('languageChanged', $language);
     }
