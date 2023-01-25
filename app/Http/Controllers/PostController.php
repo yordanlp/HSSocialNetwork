@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
+    private PostService $post_service;
+    public function __construct()
+    {
+        $this->post_service = new PostService();
+    }
     public function create()
     {
         return view('posts.create');
@@ -40,6 +46,8 @@ class PostController extends Controller
             'post_id' => $request->post_id
         ];
 
+
+
         $post = Post::create($data);
 
         if ($request->has("photo"))
@@ -58,7 +66,6 @@ class PostController extends Controller
 
     public function update($id, Request $request)
     {
-        $post = Post::findOrFail($id);
 
         $validated = $request->validate([
             "message" => ["max:250", "nullable", "required_if:photo,null"],
@@ -79,28 +86,20 @@ class PostController extends Controller
             'is_public' => $is_public,
         ];
 
-        $post->update($data);
-
-        if ($request->has("photo")) {
-            $post->media->each(function ($item, $key) {
-                $item->delete();
-            });
-            $post->addMediaFromRequest('photo')->toMediaCollection();
-        }
+        $post = $this->post_service->update($id, $data, $request->file('photo')?->getPathName());
 
         return redirect()->route("user.show", Auth::user()->id);
     }
 
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
-        $post->delete();
+        $this->post_service->destroy($id);
         return redirect()->back();
     }
 
     public function show($id)
     {
-        $post = Post::with(
+        $post = $this->post_service->getPost($id, [
             'likes',
             'dislikes',
             'media',
@@ -113,7 +112,7 @@ class PostController extends Controller
             'comments.likes',
             'comments.dislikes',
             'comments.comments'
-        )->findOrFail($id);
+        ]);
         Session::put('comments', $post->comments);
         return view("posts.show", [
             "post" => $post
