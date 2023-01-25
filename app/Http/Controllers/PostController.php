@@ -34,33 +34,26 @@ class PostController extends Controller
             "photo.file" => "The file should be an image"
         ]);
 
-        $user_id = $user->id;
-        $is_public = false;
-        if ($request->is_public != null)
-            $is_public = true;
+        $is_public = ($request->is_public != null);
 
         $data = [
-            'user_id' => $user_id,
+            'user_id' => $user->id,
             'message' => $request->message,
             'is_public' => $is_public,
             'post_id' => $request->post_id
         ];
 
 
-
-        $post = Post::create($data);
-
-        if ($request->has("photo"))
-            $post->addMediaFromRequest('photo')->toMediaCollection();
+        $post = $this->post_service->store($data, $request->file('photo')?->getPathName());
 
         if ($request->post_id != null)
             return redirect()->route("post.show", $request->post_id);
-        return redirect()->route("user.show", $user_id);
+        return redirect()->route("user.show", $user->id);
     }
 
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
+        $post = $this->post_service->getPost($id);
         return view("posts.edit", ['post' => $post]);
     }
 
@@ -77,9 +70,7 @@ class PostController extends Controller
             "photo.file" => "The file should be an image"
         ]);
 
-        $is_public = false;
-        if ($request->is_public != null)
-            $is_public = true;
+        $is_public = ($request->is_public != null);
 
         $data = [
             'message' => $request->message,
