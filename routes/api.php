@@ -19,6 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
     Route::apiResource('post', \App\Http\Controllers\Api\v1\PostController::class);
 });
