@@ -6,6 +6,7 @@ use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use AWS\CRT\HTTP\Request;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 
 /*
@@ -51,6 +52,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/user', [UserController::class, 'update'])->name('user.update');
 
     Route::get('/people', [UserController::class, 'Index'])->name("user.index");
+
+    Route::get('/token/{name}', function ($name) {
+        $user = auth()->user();
+        $token = $user->createToken($name);
+        return $token->plainTextToken;
+    });
 });
 
 

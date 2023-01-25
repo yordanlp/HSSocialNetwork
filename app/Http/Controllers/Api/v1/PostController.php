@@ -1,23 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
     private PostService $post_service;
+
     public function __construct()
     {
         $this->post_service = new PostService();
     }
-    public function create()
+
+    public function index(Request $request)
     {
-        return view('posts.create');
+        $search = $request->query('search') ?? "";
+        $paginate = $request->query('paginate') ?? null;
+        $user = auth()->user();
+        $posts = $this->post_service->getPosts($user, $search, $paginate);
+
+        return [
+            'posts' => $posts
+        ];
     }
 
     public function store(Request $request)
@@ -46,20 +55,32 @@ class PostController extends Controller
 
         $post = $this->post_service->store($data, $request->file('photo')?->getPathName());
 
-        if ($request->post_id != null)
-            return redirect()->route("post.show", $request->post_id);
-        return redirect()->route("user.show", $user->id);
+        return $post;
     }
 
-    public function edit($id)
+    public function show($id)
     {
-        $post = $this->post_service->getPost($id);
-        return view("posts.edit", ['post' => $post]);
+        $post = $this->post_service->getPost($id, [
+            'likes',
+            'dislikes',
+            'media',
+            'user',
+            'user.media',
+            'comments',
+            'comments.user',
+            'comments.parent',
+            'comments.media',
+            'comments.likes',
+            'comments.dislikes',
+            'comments.comments'
+        ]);
+        return [
+            "post" => $post
+        ];
     }
 
     public function update($id, Request $request)
     {
-
         $validated = $request->validate([
             "message" => ["max:250", "nullable", "required_if:photo,null"],
             "photo" => ["image", "mimes:jpeg,png,jpg,gif,svg", "max:10000", "nullable", "required_if:message,null", "file"]
@@ -79,55 +100,12 @@ class PostController extends Controller
 
         $post = $this->post_service->update($id, $data, $request->file('photo')?->getPathName());
 
-        return redirect()->route("user.show", Auth::user()->id);
+        return $post;
     }
 
     public function destroy($id)
     {
-        $this->post_service->destroy($id);
-        return redirect()->back();
-    }
-
-    public function show($id)
-    {
-        $post = $this->post_service->getPost($id, [
-            'likes',
-            'dislikes',
-            'media',
-            'user',
-            'user.media',
-            'comments',
-            'comments.user',
-            'comments.parent',
-            'comments.media',
-            'comments.likes',
-            'comments.dislikes',
-            'comments.comments'
-        ]);
-        Session::put('comments', $post->comments);
-        return view("posts.show", [
-            "post" => $post
-        ]);
-    }
-
-    public function like($post_id, Request $request)
-    {
-        $like = $request->like === "on" ? true : false;
-        $user = Auth::user();
-        $post = Post::findOrFail($post_id);
-        $user_likes_post = $user->likes_post($post_id);
-        $user_dislikes_post = $user->dislikes_post($post_id);
-        $post->likes()->detach($user->id);
-        $post->dislikes()->detach($user->id);
-
-        if ($like && !$user_likes_post) {
-            $post->likes()->attach($user->id, ['like' => true]);
-        }
-
-        if (!$like && !$user_dislikes_post) {
-            $post->dislikes()->attach($user->id, ['like' => false]);
-        }
-
-        return redirect()->back();
+        $post = $this->post_service->destroy($id);
+        return $post;
     }
 }
