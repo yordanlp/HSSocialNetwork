@@ -12,9 +12,9 @@ class PostController extends Controller
 {
     private PostService $post_service;
 
-    public function __construct()
+    public function __construct(PostService $post_service)
     {
-        $this->post_service = new PostService();
+        $this->post_service = $post_service;
     }
 
     public function index(Request $request)
