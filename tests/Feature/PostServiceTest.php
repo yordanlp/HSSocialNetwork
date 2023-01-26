@@ -34,7 +34,6 @@ class PostServiceTest extends TestCase
 
     public function testGetPosts()
     {
-        // Create a user and a post
 
         // Test getting all posts
         $posts = $this->postService->getPosts();

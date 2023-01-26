@@ -4,10 +4,15 @@ namespace Tests\Feature\Api;
 
 use App\Models\User;
 use App\Services\PostService;
+use Closure;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\SQLiteBuilder;
+use Illuminate\Database\SQLiteConnection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Fluent;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -20,9 +25,38 @@ class PostControllerTest extends TestCase
 
     public function setUp(): void
     {
+        $this->hotfixSqlite();
         parent::setUp();
         $this->user = User::factory()->create();
         $this->post_service = new PostService();
+    }
+
+    public function hotfixSqlite()
+    {
+        \Illuminate\Database\Connection::resolverFor('sqlite', function ($connection, $database, $prefix, $config) {
+            return new class($connection, $database, $prefix, $config) extends SQLiteConnection
+            {
+                public function getSchemaBuilder()
+                {
+                    if ($this->schemaGrammar === null) {
+                        $this->useDefaultSchemaGrammar();
+                    }
+                    return new class($this) extends SQLiteBuilder
+                    {
+                        protected function createBlueprint($table, Closure $callback = null)
+                        {
+                            return new class($table, $callback) extends Blueprint
+                            {
+                                public function dropForeign($index)
+                                {
+                                    return new Fluent();
+                                }
+                            };
+                        }
+                    };
+                }
+            };
+        });
     }
 
     public function testIndex()
